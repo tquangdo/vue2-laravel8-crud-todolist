@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    logger('welcome route. DoTQ!!!!!!');
+    $todo_list = \App\Models\TodoList::get();
+    dd($todo_list);
+    // logger('welcome route. DoTQ!!!!!!');
     return view('welcome');
 });
