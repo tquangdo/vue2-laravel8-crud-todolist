@@ -13,4 +13,7 @@ class TodoListControl extends Controller
         $todo_list = TodoList::get();
         return TodoListCollection::collection($todo_list);
     }
+    public function add()
+    {
+    }
 }
