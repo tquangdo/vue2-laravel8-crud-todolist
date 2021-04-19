@@ -2,7 +2,7 @@
   <div class="row todo-content">
     <div class="col-md-6">
       <div class="todo-list not-done">
-        <h1>TODOS</h1>
+        <h1>TODO LIST</h1>
         <div class="input-group mb-3">
           <input
             type="text"
@@ -78,12 +78,20 @@
           </div>
           <div class="col-md-6 save-all">
             <div class="form-check form-check-inline save-all">
-              <button type="button" class="btn btn-success btn-sm">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                @click="onDoneAll()"
+              >
                 DONE ALL &#10004;
               </button>
             </div>
             <div class="form-check form-check-inline save-all">
-              <button type="button" class="btn btn-dark btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                @click="onDelAll()"
+              >
                 DEL ALL &#10006;
               </button>
             </div>
@@ -114,6 +122,7 @@ export default {
         },
       ],
       txt_content: "",
+      autoincre_index: 2,
     };
   },
 
@@ -122,11 +131,12 @@ export default {
       if (this.txt_content.trim().length === 0) {
         return;
       }
+      this.autoincre_index++;
       this.todo_list.push({
-        id: this.todo_list.length + 1,
+        id: this.autoincre_index,
         content: this.txt_content,
-        checked: true,
-        done: true,
+        checked: false,
+        done: false,
       });
     },
     onDelTask(arg_item_key, arg_item_content) {
@@ -138,6 +148,22 @@ export default {
       this.todo_list.forEach((item_todo_foreach) => {
         item_todo_foreach.checked = arg_is_checked;
       });
+    },
+    onDoneAll() {
+      if (confirm("Co chac chua?")) {
+        this.todo_list.filter(function (arg_item) {
+          if (arg_item.checked) {
+            arg_item.done = true;
+          }
+        });
+      }
+    },
+    onDelAll() {
+      if (confirm("Co chac muon xoa ko?")) {
+        this.todo_list = this.todo_list.filter(function (arg_item) {
+          return !arg_item.checked;
+        });
+      }
     },
   },
 };
