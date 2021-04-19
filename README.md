@@ -4,13 +4,18 @@
 
 ## localdeploy
 
+1. root path
 - `docker-compose up -d --build`
 - `docker-compose exec app bash`
 - `[app] $ composer install`
 - `[app] $ cp .env.example .env`
 - `[app] $ php artisan key:generate`
-- browser: access "localhost:10080"
 - `[app] $ php artisan migrate`
+2. in Vue path
+- `cd todo-list`
+- `npm i`
+- `npm run dev`
+- browser: access "localhost:8080"
 
 ## connect DB
 

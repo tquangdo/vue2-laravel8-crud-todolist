@@ -103,27 +103,27 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "TodoList",
   data() {
     return {
-      todo_list: [
-        {
-          id: 1,
-          content: "Noi dung 1",
-          checked: false,
-          done: true,
-        },
-        {
-          id: 2,
-          content: "Noi dung 2",
-          checked: true,
-          done: false,
-        },
-      ],
+      todo_list: [],
       txt_content: "",
-      autoincre_index: 2,
+      autoincre_index: 0,
     };
+  },
+
+  created() {
+    axios
+      .get("http://localhost:10080/api/index")
+      .then((resp) => {
+        this.todo_list = resp.data.data;
+        this.autoincre_index = this.todo_list.length;
+      })
+      .catch((err) => {
+        alert("ERR!!!! " + err);
+      });
   },
 
   methods: {

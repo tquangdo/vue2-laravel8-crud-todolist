@@ -16,3 +16,4 @@ use App\Http\Controllers\API\TodoListControl;
 */
 
 Route::get('/index', [TodoListControl::class, 'index']);
+Route::get('/add', [TodoListControl::class, 'add']);
