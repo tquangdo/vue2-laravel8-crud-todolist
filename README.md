@@ -12,6 +12,10 @@
 - `[app] $ php artisan key:generate`
 - `[app] $ php artisan migrate`
 2. in Vue path
+> just the 1st time when create project: START
+- `npm install -g vue-cli`
+- `vue init webpack todo-list`
+> just the 1st time when create project: END
 - `cd todo-list`
 - `npm i`
 - `npm run dev`
