@@ -16,4 +16,7 @@ use App\Http\Controllers\API\TodoListControl;
 */
 
 Route::get('/index', [TodoListControl::class, 'index']);
-Route::get('/add', [TodoListControl::class, 'add']);
+Route::post('/add', [TodoListControl::class, 'add']);
+Route::post('/delone', [TodoListControl::class, 'delone']);
+Route::post('/delall', [TodoListControl::class, 'delall']);
+Route::post('/doneall', [TodoListControl::class, 'doneall']);

@@ -14,8 +14,10 @@ npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-if create Laravel project by this then cmd is "npm run watch"
+# if create Laravel project by this then cmd is "npm run watch"
 composer create-project --prefer-dist laravel/laravel <project name>
+composer require laravel/ui
+php artisan ui vue
 
 # build for production with minification
 npm run build

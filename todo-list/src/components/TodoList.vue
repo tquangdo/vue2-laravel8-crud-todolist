@@ -24,19 +24,18 @@
         <hr />
         <ul
           class="list-unstyled"
-          v-for="(item_todo, item_key) in todo_list"
+          v-for="item_todo in todo_list"
           :key="item_todo.id"
         >
           <li class="ui-state-default li-items mt-1">
             <div class="input-group">
               <div class="input-group-prepend">
                 <div class="input-group-text">
-                  <!-- checked la hien thi luc moi hien ra screen
+                  <!-- :checked la hien thi luc moi hien ra screen
                   v-model la map voi thao tac check/uncheck (quan trong!!!) -->
                   <input
                     type="checkbox"
                     aria-label="Radio button for following text input"
-                    :checked="item_todo.checked"
                     v-model="item_todo.checked"
                   />
                 </div>
@@ -48,9 +47,7 @@
                 v-model="item_todo.content"
               />
               <div class="input-group-append remove-icon">
-                <span
-                  class="input-group-text"
-                  @click="onDelTask(item_key, item_todo.content)"
+                <span class="input-group-text" @click="onDelTask(item_todo)"
                   >&#10060;</span
                 >
               </div>
@@ -60,16 +57,13 @@
         <hr />
         <div class="todo-footer row">
           <div class="col-md-6">
-            <div class="form-check form-check-inline" @click="onCheckAll(true)">
+            <div class="form-check form-check-inline" @click="onCheckAll(1)">
               &#9989;
               <label class="form-check-label" for="inlineRadio1"
                 >Check all</label
               >
             </div>
-            <div
-              class="form-check form-check-inline"
-              @click="onCheckAll(false)"
-            >
+            <div class="form-check form-check-inline" @click="onCheckAll(0)">
               &#10062;
               <label class="form-check-label" for="inlineRadio2"
                 >UnCheck all</label
@@ -110,7 +104,6 @@ export default {
     return {
       todo_list: [],
       txt_content: "",
-      autoincre_index: 0,
     };
   },
 
@@ -119,10 +112,9 @@ export default {
       .get("http://localhost:10080/api/index")
       .then((resp) => {
         this.todo_list = resp.data.data;
-        this.autoincre_index = this.todo_list.length;
       })
       .catch((err) => {
-        alert("ERR!!!! " + err);
+        alert("SEL ALL ERR!!!! " + err);
       });
   },
 
@@ -131,17 +123,30 @@ export default {
       if (this.txt_content.trim().length === 0) {
         return;
       }
-      this.autoincre_index++;
-      this.todo_list.push({
-        id: this.autoincre_index,
+      let in_params = {
         content: this.txt_content,
-        checked: false,
-        done: false,
-      });
+        checked: 0,
+        done: 0,
+      };
+      axios
+        .post("http://localhost:10080/api/add", in_params)
+        .then((resp) => {
+          this.todo_list = resp.data.data;
+        })
+        .catch((err) => {
+          alert("INS ERR!!!! " + err);
+        });
     },
-    onDelTask(arg_item_key, arg_item_content) {
-      if (confirm("Co chac muon xoa: " + arg_item_content + " ko?")) {
-        this.todo_list.splice(arg_item_key, 1);
+    onDelTask(arg_item) {
+      if (confirm("Co chac muon xoa: " + arg_item.content + " ko?")) {
+        axios
+          .post("http://localhost:10080/api/delone", { id: arg_item.id }) // phai truyen key-value voi key="id"
+          .then((resp) => {
+            this.todo_list = resp.data.data;
+          })
+          .catch((err) => {
+            alert("DEL ONE ERR!!!! " + err);
+          });
       }
     },
     onCheckAll(arg_is_checked) {
@@ -150,19 +155,31 @@ export default {
       });
     },
     onDoneAll() {
-      if (confirm("Co chac chua?")) {
-        this.todo_list.filter(function (arg_item) {
-          if (arg_item.checked) {
-            arg_item.done = true;
-          }
-        });
+      if (confirm("Co chac muon done all ko?")) {
+        axios
+          .post("http://localhost:10080/api/doneall", {
+            in_params: this.todo_list,
+          })
+          .then((resp) => {
+            this.todo_list = resp.data.data;
+          })
+          .catch((err) => {
+            alert("DONE ALL ERR!!!! " + err);
+          });
       }
     },
     onDelAll() {
       if (confirm("Co chac muon xoa ko?")) {
-        this.todo_list = this.todo_list.filter(function (arg_item) {
-          return !arg_item.checked;
-        });
+        axios
+          .post("http://localhost:10080/api/delall", {
+            in_params: this.todo_list,
+          })
+          .then((resp) => {
+            this.todo_list = resp.data.data;
+          })
+          .catch((err) => {
+            alert("DEL ALL ERR!!!! " + err);
+          });
       }
     },
   },
