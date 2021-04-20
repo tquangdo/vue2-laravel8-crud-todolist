@@ -1,6 +1,6 @@
 ![demo](demo.png)
 
-# Vue2 Laravel8 Docker template
+# Vue2 Laravel8 CRUD todo list
 
 ## localdeploy
 
