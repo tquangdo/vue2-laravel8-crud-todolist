@@ -46,7 +46,7 @@ class TodoListControl extends Controller
     public function doneall(Request $req)
     {
         // cach truc tiep update trong DB:
-        // DB::table("todolist")->whereIn('id', $arr_tmp)->update(['done',1]);
+        // DB::table("todolist")->whereIn('id', $arr_tmp)->update(['done' => 1]);
         foreach ($req->in_params as $item_param) {
             if ($item_param['checked'] == 1) {
                 $todo_tmp = TodoList::where('id', $item_param['id'])->first();
