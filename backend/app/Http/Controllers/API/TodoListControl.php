@@ -8,13 +8,45 @@ use App\Http\Resources\TodoListCollection;
 use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\DB;
 
+/**
+ * @group TodoListControl
+ * 
+ * API for todo list
+ */
+
 class TodoListControl extends Controller
 {
+    /**
+     * index()
+     * 
+     * default function, get all todo list
+     * 
+     * @response {
+     * "id": 4,
+     * "content": "345",
+     * "checked": 0,
+     * "done": 0
+     * }
+     */
     public function index()
     {
         $todo_list = TodoList::get();
         return TodoListCollection::collection($todo_list);
     }
+    /**
+     * add()
+     * 
+     * add 1 task
+     * 
+     * @queryParam task a todo list's task. Example: task
+     * 
+     * @response {
+     * "id": 4,
+     * "content": "345",
+     * "checked": 0,
+     * "done": 0
+     * }
+     */
     public function add(Request $req)
     {
         $todo_list = new TodoList;
@@ -27,12 +59,50 @@ class TodoListControl extends Controller
         $todo_list = TodoList::get();
         return TodoListCollection::collection($todo_list);
     }
+    /**
+     * delone()
+     * 
+     * delete 1 task
+     * 
+     * @queryParam id id of a todo list's task. Example: 1
+     * 
+     * @response {
+     * "id": 4,
+     * "content": "345",
+     * "checked": 0,
+     * "done": 0
+     * }
+     */
     public function delone(Request $req)
     {
         TodoList::find($req->id)->delete(); // vi la "TodoList::find()" nen phai truyen "JSON.id" chu KO phai index of array
         $todo_list = TodoList::get();
         return TodoListCollection::collection($todo_list);
     }
+    /**
+     * delall()
+     * 
+     * delete all checked tasks
+     * 
+     * @queryParam tasklist a todo list. Example: tasklist
+     * 
+     * @response {
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "content": "1",
+     *             "checked": 0,
+     *             "done": 1
+     *         },
+     *         {
+     *             "id": 4,
+     *             "content": "345",
+     *             "checked": 0,
+     *             "done": 0
+     *         }
+     *     ]
+     * }
+     */
     public function delall(Request $req)
     {
         foreach ($req->in_params as $item_param) {
@@ -43,6 +113,30 @@ class TodoListControl extends Controller
         $todo_list = TodoList::get();
         return TodoListCollection::collection($todo_list);
     }
+    /**
+     * doneall()
+     * 
+     * finish all checked tasks
+     * 
+     * @queryParam tasklist a todo list. Example: tasklist
+     * 
+     * @response {
+     *     "data": [
+     *         {
+     *             "id": 1,
+     *             "content": "1",
+     *             "checked": 0,
+     *             "done": 1
+     *         },
+     *         {
+     *             "id": 4,
+     *             "content": "345",
+     *             "checked": 0,
+     *             "done": 0
+     *         }
+     *     ]
+     * }
+     */
     public function doneall(Request $req)
     {
         // cach truc tiep update trong DB:
