@@ -1,5 +1,6 @@
 # Vue2 Laravel8 CRUD todo list 🐳
 
+![badge4](https://img.shields.io/badge/docker-3.3.1-blue)
 ![License](https://img.shields.io/github/license/tquangdo/vue2-laravel8-crud-todolist?color=f05340)
 ![Stars](https://img.shields.io/github/stars/tquangdo/vue2-laravel8-crud-todolist?color=f05340)
 ![Issues](https://img.shields.io/github/issues/tquangdo/vue2-laravel8-crud-todolist?color=f05340)
